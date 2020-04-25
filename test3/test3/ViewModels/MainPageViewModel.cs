@@ -41,15 +41,17 @@ namespace test3.ViewModels
             {
                 return;
             }
+            await App.Current.MainPage.DisplayAlert("Congratulation!", User.username, "Accept");
+            await App.Current.MainPage.DisplayAlert("Congratulation!", Solution, "Accept");
 
             SolutionRequest solutionrequest = new SolutionRequest
             {
                username=User.username,
                solution=Solution
             };
-
+            
             string url = App.Current.Resources["UrlAPI"].ToString();
-            bool status = await _apiService.PutAsync(url, "/api", "/Account", solutionrequest, "bearer",Problem.token);
+            bool status = await _apiService.PutAsync(url, "/Account", "/SendSolution", solutionrequest, "bearer",Problem.token);
 
             if (status)
             {

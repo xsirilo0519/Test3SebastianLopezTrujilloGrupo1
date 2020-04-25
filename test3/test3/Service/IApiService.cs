@@ -9,6 +9,6 @@ namespace test3.Service
     public interface IApiService
     {
         Task<Response> GetProblemAsync(string urlBase, string servicePrefix, string controller, UserRequest request);
-        Task<bool> PutAsync(string urlBase, string servicePrefix, string controller,SolutionRequest sol, string tokenType, string accessToken);
+        Task<bool> PutAsync(string urlBase, string servicePrefix, string controller, SolutionRequest solution, string tokenType, string accessToken);
     }
 }

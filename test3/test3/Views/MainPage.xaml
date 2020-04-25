@@ -102,10 +102,11 @@
                                Grid.Column="0"
                                Text="Problem"
                                VerticalOptions="Center"/>
-                        <Entry Grid.Row="0"
+                        <Editor Grid.Row="0"
                                Grid.Column="1"
+                                HeightRequest="120"
                                IsEnabled="false"
-                               WidthRequest="30"
+                               
                                Text="{Binding Problem.problem}"/>
                         <Label Grid.Row="1"
                                Grid.Column="0"
