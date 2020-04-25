@@ -41,9 +41,7 @@ namespace test3.ViewModels
             {
                 return;
             }
-            await App.Current.MainPage.DisplayAlert("Congratulation!", User.username, "Accept");
-            await App.Current.MainPage.DisplayAlert("Congratulation!", Solution, "Accept");
-
+         
             SolutionRequest solutionrequest = new SolutionRequest
             {
                username=User.username,
