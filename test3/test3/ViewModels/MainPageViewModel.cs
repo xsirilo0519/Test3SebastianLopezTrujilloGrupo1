@@ -17,7 +17,9 @@ namespace test3.ViewModels
         private UserRequest _user;
         private Response _problem;
         private bool _isEnabled;
+        private string _solution;
         private DelegateCommand _registerCommand;
+        private DelegateCommand _sendCommand;
         public MainPageViewModel(INavigationService navigationService, IApiService apiService)
             : base(navigationService)
         {
@@ -30,6 +32,34 @@ namespace test3.ViewModels
         }
 
         public DelegateCommand RegisterCommand => _registerCommand ?? (_registerCommand = new DelegateCommand(RegisterAsync));
+        public DelegateCommand SendCommand => _sendCommand ?? (_sendCommand = new DelegateCommand(SendAsync));
+
+        private async void SendAsync()
+        {
+            bool isValid = await ValidateData2Async();
+            if (!isValid)
+            {
+                return;
+            }
+
+            SolutionRequest solutionrequest = new SolutionRequest
+            {
+               username=User.username,
+               solution=Solution
+            };
+
+            string url = App.Current.Resources["UrlAPI"].ToString();
+            bool status = await _apiService.PutAsync(url, "/api", "/Account", solutionrequest, "bearer",Problem.token);
+
+            if (status)
+            {
+                await App.Current.MainPage.DisplayAlert("Congratulation!", "The answer was registered successfully!", "Accept");
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "The answer was not registered successfully", "Accept");
+            }
+        }
 
         private async void RegisterAsync()
         {
@@ -56,15 +86,15 @@ namespace test3.ViewModels
 
             if (string.IsNullOrEmpty(Problem.token))
             {
-                await App.Current.MainPage.DisplayAlert("Error", Problem.problem, "Accept");
+                await App.Current.MainPage.DisplayAlert("Error","No pudo encontrar su problema", "Accept");
             }
-            else
-            {
-                await App.Current.MainPage.DisplayAlert("wiiii", Problem.problem, "Accept");
-            }
-
-
         }
+        public string Solution
+        {
+            get => _solution;
+            set => SetProperty(ref _solution, value);
+        }
+
         public Response Problem
         {
             get => _problem;
@@ -81,6 +111,25 @@ namespace test3.ViewModels
         {
             get => _isEnabled;
             set => SetProperty(ref _isEnabled, value);
+        }
+
+        private async Task<bool> ValidateData2Async()
+        {
+
+            if (string.IsNullOrEmpty(User.username))
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "You must enter a Email", "Accept");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(Solution))
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "You must enter the solution", "Accept");
+                return false;
+            }
+
+
+            return true;
         }
 
         private async Task<bool> ValidateDataAsync()

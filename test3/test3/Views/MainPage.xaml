@@ -88,8 +88,37 @@
                     <Button Command="{Binding RegisterCommand}"
                         IsEnabled="{Binding IsEnabled}"
                         Text="Get Problem"/>
-                    <Entry 
-                          Text="{Binding Problem.problem}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0"
+                               Grid.Column="0"
+                               Text="Problem"
+                               VerticalOptions="Center"/>
+                        <Entry Grid.Row="0"
+                               Grid.Column="1"
+                               IsEnabled="false"
+                               WidthRequest="30"
+                               Text="{Binding Problem.problem}"/>
+                        <Label Grid.Row="1"
+                               Grid.Column="0"
+                               Text="Solution"
+                               VerticalOptions="Center"/>
+                        <Entry Grid.Row="1"
+                               Grid.Column="1"
+                               Text="{Binding Solution}"/>
+
+                    </Grid>
+                    <Button Command="{Binding SendCommand}"
+                        Text="Send Problem"/>
+
                 </StackLayout>
             </ScrollView>
 
